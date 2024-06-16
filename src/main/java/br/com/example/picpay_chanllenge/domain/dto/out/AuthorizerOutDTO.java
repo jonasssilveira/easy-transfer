@@ -1,7 +1,7 @@
-package br.com.example.picpay_chanllenge.domain.dto;
+package br.com.example.picpay_chanllenge.domain.dto.out;
 
 import java.util.Map;
 
-public record AuthorizerDTO(String status,
-                            Map<String, String> data) {
+public record AuthorizerOutDTO(String status,
+                            Map<String, Boolean> data) {
 }

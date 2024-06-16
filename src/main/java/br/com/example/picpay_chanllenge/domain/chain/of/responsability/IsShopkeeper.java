@@ -4,11 +4,17 @@ import br.com.example.picpay_chanllenge.domain.usecase.Transferencia;
 
 public class IsShopkeeper extends Rules {
 
+    Rules rule;
+
+    public IsShopkeeper(Rules rule) {
+        this.rule = rule;
+    }
+
     @Override
     public boolean check(Transferencia checker) {
-        if (checker.getTransfer().value() <= 0){
+        if (checker.getTransfer().payer().shopkeeper()) {
             return false;
         }
-        return true;
+        return this.checkNext(checker, this.rule);
     }
 }

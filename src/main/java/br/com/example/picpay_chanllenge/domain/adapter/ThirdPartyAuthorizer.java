@@ -1,5 +1,8 @@
 package br.com.example.picpay_chanllenge.domain.adapter;
 
-public class ThirdPartyAnalizer {
-    analizer()
+
+import br.com.example.picpay_chanllenge.domain.dto.out.AuthorizerOutDTO;
+
+public interface ThirdPartyAuthorizer {
+    AuthorizerOutDTO authorize();
 }
