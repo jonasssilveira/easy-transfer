@@ -1,4 +1,4 @@
-CREATE TABLE transferencia
+CREATE TABLE transfer
 (
     id                 BIGSERIAL PRIMARY KEY,
     value              BIGINT,
@@ -6,8 +6,8 @@ CREATE TABLE transferencia
     payee_id           BIGINT NOT NULL,
     data_transferencia TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         CONSTRAINT fk_payer FOREIGN KEY (payer_id)
-            REFERENCES usuario (id),
+            REFERENCES user (id),
     CONSTRAINT fk_payee
         FOREIGN KEY (payee_id)
-            REFERENCES usuario (id)
+            REFERENCES user (id)
 );

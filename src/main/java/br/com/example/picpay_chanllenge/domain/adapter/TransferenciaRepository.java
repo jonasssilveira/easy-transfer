@@ -3,7 +3,7 @@ package br.com.example.picpay_chanllenge.domain.adapter;
 import br.com.example.picpay_chanllenge.domain.entity.Transfer;
 import br.com.example.picpay_chanllenge.domain.entity.User;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +12,9 @@ public interface TransferenciaRepository {
 
     Optional<Transfer> get(Long id);
 
-    List<Transfer> ListByUser(User user);
+    Optional<Transfer> findByPayer(Long user);
 
-    List<Transfer> ListByDate(Date date);
+    Optional<Transfer> findByPayee(Long user);
+
+    List<Transfer> ListByDate(User user, LocalDate date);
 }

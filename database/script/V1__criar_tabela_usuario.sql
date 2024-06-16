@@ -1,4 +1,4 @@
-CREATE TABLE usuario
+CREATE TABLE user
 (
     id             BIGSERIAL PRIMARY KEY,
     full_user_name VARCHAR(255),
