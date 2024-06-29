@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TransferenciaRepository {
-    void merge(Transfer transfer);
+    Transfer save(Transfer transfer);
 
-    Optional<Transfer> get(Long id);
+    Optional<Transfer> findById(Long id);
 
     Optional<Transfer> findByPayer(Long user);
 
     Optional<Transfer> findByPayee(Long user);
 
-    List<Transfer> ListByDate(User user, LocalDate date);
+    List<Transfer> findByDate(User user, LocalDate date);
 }

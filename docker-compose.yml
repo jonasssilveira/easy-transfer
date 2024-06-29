@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+
+  mysql:
+    image: mysql:8.1.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: pass123
+      MYSQL_DATABASE: easytransfer
+      MYSQL_USER: easytransfer
+      MYSQL_PASSWORD: easytransfer123
+      MYSQL_ALLOW_PUBLIC_KEY_RETRIEVAL: "false"
+      MYSQL_SSL: "false"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - easytransfer
+
+  flyway:
+    image: flyway/flyway
+    container_name: flyway
+    volumes:
+      - ./database/script:/flyway/sql
+    environment:
+      FLYWAY_URL: jdbc:mysql://mysql:3306/easytransfer?allowPublicKeyRetrieval=true&useSSL=false
+      FLYWAY_USER: root
+      FLYWAY_PASSWORD: pass123
+    command: -url=jdbc:mysql://mysql:3306/easytransfer?allowPublicKeyRetrieval=true&useSSL=false -user=root -password=pass123 migrate
+    depends_on:
+      - mysql
+    networks:
+      - easytransfer
+
+volumes:
+  mysql-data:
+
+networks:
+  easytransfer:

@@ -13,4 +13,15 @@ public record UserDTO(
     public User userDTOTOUser() {
         return new User(id, fullUserName, cpf, email, password, shopkeeper, saldo);
     }
+
+    public static UserDTO userTODTO(User user) {
+        return new UserDTO(user.getId(),
+                user.getFullUserName(),
+                user.getCpf(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getShopkeeper(),
+                user.getSaldo());
+    }
+
 }

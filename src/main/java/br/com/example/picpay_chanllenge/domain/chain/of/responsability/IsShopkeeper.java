@@ -12,7 +12,7 @@ public class IsShopkeeper extends Rules {
 
     @Override
     public boolean check(Transferencia checker) {
-        if (checker.getTransfer().payer().shopkeeper()) {
+        if (checker.getTransfer().getPayer().getShopkeeper()) {
             return false;
         }
         return this.checkNext(checker, this.rule);

@@ -1,6 +1,6 @@
 CREATE TABLE user
 (
-    id             BIGSERIAL PRIMARY KEY,
+    id             BIGINT              NOT NULL AUTO_INCREMENT PRIMARY KEY,
     full_user_name VARCHAR(255),
     cpf            BIGINT UNIQUE       NOT NULL,
     saldo          BIGINT DEFAULT 0    NOT NULL,

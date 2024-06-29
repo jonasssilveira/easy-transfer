@@ -10,7 +10,7 @@ public class PayerHasSaldo extends Rules {
     }
     @Override
     public boolean check(Transferencia checker) {
-        if (checker.getTransfer().payer().saldo() < checker.getTransfer().value()){
+        if (checker.getTransfer().getPayer().getSaldo() < checker.getTransfer().getValue()){
             return false;
         }
         return this.checkNext(checker, this.rule);
