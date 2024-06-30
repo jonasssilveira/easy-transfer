@@ -1,5 +1,6 @@
 package br.com.example.picpay_chanllenge.domain.chain.of.responsability;
 
+import br.com.example.picpay_chanllenge.domain.exception.OperationNotPerformedException;
 import br.com.example.picpay_chanllenge.domain.usecase.Transferencia;
 
 public class IsShopkeeper extends Rules {
@@ -13,7 +14,7 @@ public class IsShopkeeper extends Rules {
     @Override
     public boolean check(Transferencia checker) {
         if (checker.getTransfer().getPayer().getShopkeeper()) {
-            return false;
+            throw new OperationNotPerformedException("Não foi possivel, pois lojistas nao transferem");
         }
         return this.checkNext(checker, this.rule);
     }

@@ -9,7 +9,6 @@ import br.com.example.picpay_chanllenge.domain.chain.of.responsability.IsAuthori
 import br.com.example.picpay_chanllenge.domain.chain.of.responsability.IsShopkeeper;
 import br.com.example.picpay_chanllenge.domain.chain.of.responsability.PayeeHasAmount;
 import br.com.example.picpay_chanllenge.domain.chain.of.responsability.PayerHasAmount;
-import br.com.example.picpay_chanllenge.domain.chain.of.responsability.PayerHasSaldo;
 import br.com.example.picpay_chanllenge.domain.entity.Transfer;
 
 public class Transferencia {
@@ -29,11 +28,9 @@ public class Transferencia {
 
     public Boolean transfere() {
 
-        var rules = new PayerHasAmount(new HasAmount(new IsAuthorized(new IsShopkeeper(new PayerHasSaldo(null)))));
+        var rules = new PayerHasAmount(new HasAmount(new IsAuthorized(new IsShopkeeper(null))));
 
-        if (!rules.check(this)) {
-            return false;
-        }
+        rules.check(this);
         this.transferenciaRepository.save(this.transfer);
         this.userRepository.deposit(this.transfer.getPayee().getId(), this.transfer.getValue());
         this.userRepository.withdraw(this.transfer.getPayer().getId(), this.transfer.getValue());
@@ -45,9 +42,7 @@ public class Transferencia {
 
         var rules = new PayeeHasAmount(new HasAmount(new IsAuthorized(null)));
 
-        if (!rules.check(this)) {
-            return false;
-        }
+        rules.check(this);
         this.transferenciaRepository.save(this.transfer);
         this.userRepository.withdraw(this.transfer.getPayee().getId(), this.transfer.getValue());
    //     this.thirdPartyNotify.pushNotify();
@@ -58,9 +53,7 @@ public class Transferencia {
 
         var rules = new IsAuthorized(null);
 
-        if (!rules.check(this)) {
-            return false;
-        }
+        rules.check(this);
         this.transferenciaRepository.save(this.transfer);
         this.userRepository.deposit(this.transfer.getPayee().getId(), this.transfer.getValue());
         //this.thirdPartyNotify.pushNotify();
