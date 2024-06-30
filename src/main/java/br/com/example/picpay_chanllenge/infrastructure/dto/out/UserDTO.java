@@ -1,6 +1,7 @@
 package br.com.example.picpay_chanllenge.infrastructure.dto.out;
 
 import br.com.example.picpay_chanllenge.domain.entity.User;
+import org.bouncycastle.crypto.generators.BCrypt;
 
 public record UserDTO(
         Long id,

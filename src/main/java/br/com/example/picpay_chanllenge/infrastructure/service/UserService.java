@@ -1,5 +1,6 @@
 package br.com.example.picpay_chanllenge.infrastructure.service;
 
+import br.com.example.picpay_chanllenge.domain.entity.User;
 import br.com.example.picpay_chanllenge.domain.usecase.Transferencia;
 import br.com.example.picpay_chanllenge.infrastructure.dto.out.TransferDTO;
 import br.com.example.picpay_chanllenge.infrastructure.dto.out.UserDTO;
@@ -9,6 +10,9 @@ import br.com.example.picpay_chanllenge.infrastructure.repository.TransferReposi
 import br.com.example.picpay_chanllenge.infrastructure.repository.UserRepositoryJPA;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,17 +25,20 @@ public class UserService {
     private final TransferRepositoryJPA transferenciaRepository;
     private final TransactionAuthorizer transactionAuthorizer;
     private final TransactionNotify transactionNotify;
+    private final PasswordEncoder passwordEncoder;
     private Transferencia transferencia;
-
 
     public UserService(@Autowired UserRepositoryJPA userRepository,
                        @Autowired TransferRepositoryJPA transferenciaRepository,
                        @Autowired TransactionAuthorizer transactionAuthorizer,
-                       @Autowired TransactionNotify transactionNotify) {
+                       @Autowired TransactionNotify transactionNotify,
+                       @Autowired PasswordEncoder passwordEncoder
+    ) {
         this.userRepository = userRepository;
         this.transferenciaRepository = transferenciaRepository;
         this.transactionAuthorizer = transactionAuthorizer;
         this.transactionNotify = transactionNotify;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
@@ -40,7 +47,9 @@ public class UserService {
     }
 
     public void merge(UserDTO user) {
-        this.userRepository.save(user.userDTOTOUser());
+        User u = user.userDTOTOUser();
+        u.setPassword(encodePassword(user.password()));
+        this.userRepository.save(u);
     }
 
     public List<UserDTO> getAll() {
@@ -100,6 +109,14 @@ public class UserService {
         var payee = this.userRepository.findById(transfer.idPayee()).orElseThrow(() -> new RuntimeException("Payee not found"));
         this.transferencia.setTransfer(transfer.TransferDTOToTransfer(null, payee));
         this.transferencia.withdraw();
+    }
+
+    private String encodePassword(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
+    }
+
+    private boolean matches(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
 }
